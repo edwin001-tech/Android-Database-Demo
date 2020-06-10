@@ -19,20 +19,23 @@ public class MainActivity extends AppCompatActivity {
             //create a new database
             SQLiteDatabase myDatabase = this.openOrCreateDatabase("Users", MODE_PRIVATE, null);
             //create a table
-            myDatabase.execSQL("CREATE TABLE IF NOT EXISTS users(name VARCHAR, age INT(3))");
+            myDatabase.execSQL("CREATE TABLE IF NOT EXISTS NewUsers(name VARCHAR, age INT(3), id INTEGER PRIMARY KEY)");
 
-            myDatabase.execSQL("INSERT INTO users (name,age) VALUES('Faith',19)");
-            myDatabase.execSQL("INSERT INTO users (name,age) VALUES('Purity',18)");
+            myDatabase.execSQL("INSERT INTO NewUsers (name,age) VALUES('Faith',19)");
+            myDatabase.execSQL("INSERT INTO NewUsers (name,age) VALUES('Purity',18)");
+            //myDatabase.execSQL("DELETE FROM users WHERE name = 'Faith'");
 
             //pull stuff from the database
-            Cursor c = myDatabase.rawQuery("SELECT * FROM users",null);
+            Cursor c = myDatabase.rawQuery("SELECT * FROM NewUsers WHERE name = 'Faith' AND age ='19'",null);
             int nameIndex = c.getColumnIndex("name");
             int ageIndex = c.getColumnIndex("age");
+            int idIndex = c.getColumnIndex("id");
 
             c.moveToFirst();
             while (c != null){
                 Log.i("name", c.getString(nameIndex));
-                Log.i("age", Integer.toString(c.getInt(ageIndex)));
+                Log.i("age", Integer.toString(c.getInt(ageIndex)))
+                ;
                 c.moveToNext();
             }
         }
